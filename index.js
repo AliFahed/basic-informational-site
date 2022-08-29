@@ -3,39 +3,35 @@ const path = require("path");
 const fs = require("fs");
 
 const server = http.createServer((req, res) => {
-  // check each page
-  if (req.url === "/") {
-    fs.readFile(
-      path.join(__dirname, "public", "index.html"),
-      (err, content) => {
-        if (err) throw err;
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(content);
-      }
-    );
-  }
+  let filePath = path.join(
+    __dirname,
+    "public",
+    req.url === "/" ? "index.html" : req.url
+  );
 
-  if (req.url === "/about") {
-    fs.readFile(
-      path.join(__dirname, "public", "about.html"),
-      (err, content) => {
-        if (err) throw err;
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(content);
+  fs.readFile(filePath, (err, content) => {
+    // if page not found
+    if (err) {
+      if (err.code == "ENOENT") {
+        fs.readFile(
+          path.join(__dirname, "public", "404.html"),
+          (err, content) => {
+            if (err) throw err;
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.end(content, "utf8");
+          }
+        );
+      } else {
+        // server error
+        res.writeHead(500);
+        res.end(`Server Error: ${err.code}`);
       }
-    );
-  }
-
-  if (req.url === "/contact-me") {
-    fs.readFile(
-      path.join(__dirname, "public", "contact-me.html"),
-      (err, content) => {
-        if (err) throw err;
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(content);
-      }
-    );
-  }
+    } else {
+      // success
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end(content, "utf8");
+    }
+  });
 });
 
 const PORT = process.env.PORT || 8080;
