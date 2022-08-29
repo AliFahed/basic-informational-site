@@ -1,0 +1,27 @@
+{
+  "name": "basic-informational-site",
+  "version": "1.0.0",
+  "description": "This is my first Node JS project.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliFahed/basic-informational-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AliFahed/basic-informational-site/issues"
+  },
+  "homepage": "https://github.com/AliFahed/basic-informational-site#readme",
+  "dependencies": {
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
